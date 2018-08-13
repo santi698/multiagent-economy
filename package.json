@@ -1,0 +1,11 @@
+{
+  "name": "multiagent-economy",
+  "version": "0.0.1",
+  "description": "A multiagent system for studying economic behaviours",
+  "main": "src/app.js",
+  "scripts": {
+    "start": "node src/app.js"
+  },
+  "author": "Santiago Ocamica; Juan Pablo Dantur",
+  "license": "MIT"
+}
