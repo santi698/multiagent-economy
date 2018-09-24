@@ -2,7 +2,7 @@ import SimpleSeller from './models/SimpleSeller';
 import SimpleBuyer from './models/SimpleBuyer';
 import World from './models/World';
 
-const CONSUMER_AMOUNT = 1000;
+const CONSUMER_AMOUNT = 600;
 const SIMULATION_STEPS = 200;
 
 function main() {
@@ -29,8 +29,8 @@ function main() {
         agent.constructor.name === 'SimpleSeller' &&
         console.log(agent.toString())
     );
-    console.log(`\nSimulation Step ${i} End\n`);
   }
+  agents.forEach((agent) => console.log(agent.toString()));
 }
 
 function createBuyers() {
@@ -38,7 +38,10 @@ function createBuyers() {
     const q = Math.random();
     return new SimpleBuyer({
       maxPrice: 5 + Math.random() * 10,
-      qualityThreshold: 1 - q * q,
+      qualityThreshold: Math.min(0.95, 1 - q * q),
+      buyingPeriod: Math.random() > 0.5 ? 2 : 1,
+      startingMoney: 200,
+      salary: 200,
     });
   });
 }
