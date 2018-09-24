@@ -1,9 +1,10 @@
-const Agent = require('./Agent');
+import Agent from './Agent';
 
 class SimpleBuyer extends Agent {
-  constructor(maxPrice) {
+  constructor({ maxPrice, qualityThreshold }) {
     super();
     this.maxPrice = maxPrice;
+    this.qualityThreshold = qualityThreshold;
   }
   act() {
     const sellers = this.getWorld()
@@ -12,7 +13,8 @@ class SimpleBuyer extends Agent {
         (agent) =>
           agent.constructor.name === 'SimpleSeller' &&
           agent.hasProductsOnStock() &&
-          agent.getProductPrice() <= this.maxPrice
+          agent.getProductPrice() <= this.maxPrice &&
+          agent.getQuality() >= this.qualityThreshold
       )
       .sort(
         (seller1, seller2) =>
@@ -27,4 +29,4 @@ class SimpleBuyer extends Agent {
   }
 }
 
-module.exports = SimpleBuyer;
+export default SimpleBuyer;

@@ -1,10 +1,11 @@
-Agent = require('./Agent');
-PriceUpdateStrategy1 = require('./PriceUpdateStrategy1');
+import Agent from './Agent';
+import PriceUpdateStrategy1 from './PriceUpdateStrategy1';
 
 class SimpleSeller extends Agent {
   constructor({
     productName,
     initialProductPrice,
+    quality,
     minPrice,
     stockCapacity,
     producingCapacity,
@@ -28,16 +29,25 @@ class SimpleSeller extends Agent {
     this.totalAmountSold = 0;
     this.periodQuantitySold = 0;
     this.priceUpdateStrategy = priceUpdateStrategy;
+    this.quality = quality;
   }
+
   getProduct() {
     return this.productName;
   }
+
   getProductPrice() {
     return this.productPrice;
   }
+
+  getQuality() {
+    return this.quality;
+  }
+
   hasProductsOnStock() {
     return this.productsOnStock > 0;
   }
+
   buyProduct() {
     if (this.productsOnStock == 0) {
       return;
@@ -48,6 +58,7 @@ class SimpleSeller extends Agent {
     this.accountBalance += this.productPrice;
     this.productsOnStock--;
   }
+
   enter() {
     const periodProduce = Math.min(
       this.stockCapacity - this.productsOnStock,
@@ -56,7 +67,9 @@ class SimpleSeller extends Agent {
     this.productsOnStock += periodProduce;
     this.accountBalance -= this.fixedCosts + this.variableCosts * periodProduce;
   }
+
   act(delta) {}
+
   exit() {
     this.productPrice = this.priceUpdateStrategy({
       minPrice: this.minPrice,
@@ -68,20 +81,15 @@ class SimpleSeller extends Agent {
     });
     this.periodQuantitySold = 0;
   }
+
   toString() {
-    return `SimpleSeller<\n  product=${this.productName}\n  stock=${
-      this.productsOnStock
-    }/${this.stockCapacity}\n  producingCapacity=${
-      this.producingCapacity
-    }\n  productPrice=${this.productPrice}\n  minPrice=${
-      this.minPrice
-    }\n  sold=${this.totalQuantitySold}|$${this.totalAmountSold}\n  earn=${this
-      .totalAmountSold -
-      this.variableCosts * this.totalQuantitySold}\n  earnedPerSale=${this
-      .totalAmountSold /
-      this.totalQuantitySold -
-      this.variableCosts}\n  accountBalance=${this.accountBalance}\n>`;
+    return `SimpleSeller<
+      stock=${this.productsOnStock}/${this.stockCapacity}
+      productPrice=${this.productPrice}
+      quality=${this.quality}
+      accountBalance=${this.accountBalance}
+    >`;
   }
 }
 
-module.exports = SimpleSeller;
+export default SimpleSeller;

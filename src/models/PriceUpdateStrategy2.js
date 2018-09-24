@@ -1,4 +1,4 @@
-function PriceUpdateStrategy2({
+export default function PriceUpdateStrategy2({
   quantitySold,
   currentPrice,
   fixedCosts,
@@ -9,5 +9,3 @@ function PriceUpdateStrategy2({
   const rentability = earnings / (earnings - cost);
   return currentPrice + rentability * currentPrice;
 }
-
-module.exports = PriceUpdateStrategy2;

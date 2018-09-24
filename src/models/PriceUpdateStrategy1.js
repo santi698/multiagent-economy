@@ -1,4 +1,4 @@
-function PriceUpdateStrategy1({
+export default function PriceUpdateStrategy1({
   minPrice,
   currentPrice,
   quantitySold,
@@ -10,5 +10,3 @@ function PriceUpdateStrategy1({
     minPrice - currentPrice
   ));
 }
-
-module.exports = PriceUpdateStrategy1;
