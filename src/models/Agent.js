@@ -10,4 +10,4 @@ class Agent {
   }
 }
 
-export default Agent;
+module.exports = Agent;

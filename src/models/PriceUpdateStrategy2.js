@@ -1,4 +1,4 @@
-export default function PriceUpdateStrategy2({
+module.exports = function PriceUpdateStrategy2({
   quantitySold,
   currentPrice,
   fixedCosts,
@@ -8,4 +8,4 @@ export default function PriceUpdateStrategy2({
   const earnings = currentPrice * quantitySold;
   const rentability = earnings / (earnings - cost);
   return currentPrice + rentability * currentPrice;
-}
+};

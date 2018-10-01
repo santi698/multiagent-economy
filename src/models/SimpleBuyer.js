@@ -1,6 +1,5 @@
-import Agent from './Agent';
-import priceWithQuality from '../sorting/priceWithQuality';
-// import priceThenQuality from '../sorting/priceThenQuality';
+const Agent = require('./Agent');
+const priceWithQuality = require('../sorting/priceWithQuality');
 
 const SALARY_PERIOD = 30;
 class SimpleBuyer extends Agent {
@@ -90,4 +89,4 @@ class SimpleBuyer extends Agent {
   }
 }
 
-export default SimpleBuyer;
+module.exports = SimpleBuyer;

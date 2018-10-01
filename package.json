@@ -8,7 +8,7 @@
     "url": "git@github.com:santi698/multiagent-economy.git"
   },
   "scripts": {
-    "start": "babel-node src/app.js"
+    "start": "electron src/app.js"
   },
   "author": "Santiago Ocamica; Juan Pablo Dantur",
   "license": "MIT",
@@ -16,6 +16,11 @@
     "@babel/cli": "^7.1.0",
     "@babel/core": "^7.1.0",
     "@babel/node": "^7.0.0",
-    "@babel/preset-env": "^7.1.0"
+    "@babel/preset-env": "^7.1.0",
+    "electron": "^3.0.2"
+  },
+  "dependencies": {
+    "chart.js": "^2.7.2",
+    "jquery": "^3.3.1"
   }
 }

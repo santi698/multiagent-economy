@@ -1,4 +1,4 @@
-export default function PriceUpdateStrategy1({
+module.exports = function PriceUpdateStrategy1({
   minPrice,
   currentPrice,
   quantitySold,
@@ -9,4 +9,4 @@ export default function PriceUpdateStrategy1({
     Math.sign(missedSales) * Math.sqrt(Math.abs(missedSales)) * Math.random(),
     minPrice - currentPrice
   ));
-}
+};

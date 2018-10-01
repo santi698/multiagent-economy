@@ -1,5 +1,5 @@
-import Agent from './Agent';
-import PriceUpdateStrategy1 from './PriceUpdateStrategy1';
+const Agent = require('./Agent');
+const PriceUpdateStrategy1 = require('./PriceUpdateStrategy1');
 
 class SimpleSeller extends Agent {
   constructor({
@@ -93,4 +93,4 @@ class SimpleSeller extends Agent {
   }
 }
 
-export default SimpleSeller;
+module.exports = SimpleSeller;

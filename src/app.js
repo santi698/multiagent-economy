@@ -1,185 +1,34 @@
-import SimpleSeller from './models/SimpleSeller';
-import SimpleBuyer from './models/SimpleBuyer';
-import World from './models/World';
+const { app, BrowserWindow } = require('electron');
+const path = require('path');
+const url = require('url');
 
-const CONSUMER_AMOUNT = 600;
-const SIMULATION_STEPS = 200;
+let window = null;
 
-function main() {
-  const agents = [...createSellers(), ...createBuyers()];
-  const world = new World(agents);
-  agents.forEach((agent) => agent.init(world));
-  console.log(
-    agents.filter((agent) => agent.constructor.name === 'SimpleBuyer').length
-  );
-  let i;
-  for (i = 0; i < SIMULATION_STEPS; i++) {
-    console.log(`\nSimulation Step ${i} Start\n`);
-    agents.forEach((agent) => {
-      agent.enter();
-    });
-    agents.forEach((agent) => {
-      agent.act(1);
-    });
-    agents.forEach((agent) => {
-      agent.exit();
-    });
-    agents.forEach(
-      (agent) =>
-        agent.constructor.name === 'SimpleSeller' &&
-        console.log(agent.toString())
-    );
-  }
-  agents.forEach((agent) => console.log(agent.toString()));
-}
-
-function createBuyers() {
-  return new Array(CONSUMER_AMOUNT).fill().map(() => {
-    const q = Math.random();
-    return new SimpleBuyer({
-      maxPrice: 5 + Math.random() * 10,
-      qualityThreshold: Math.min(0.95, 1 - q * q),
-      buyingPeriod: Math.random() > 0.5 ? 2 : 1,
-      startingMoney: 200,
-      salary: 200,
-    });
+// Wait until the app is ready
+app.once('ready', () => {
+  // Create a new window
+  window = new BrowserWindow({
+    // Set the initial width to 500px
+    width: 1200,
+    // Set the initial height to 400px
+    height: 800,
+    // set the title bar style
+    titleBarStyle: 'hidden-inset',
+    // set the background color to black
+    backgroundColor: '#FFF',
+    // Don't show the window until it's ready, this prevents any white flickering
+    show: false,
   });
-}
-function createSellers() {
-  return [
-    new SimpleSeller({
-      productName: 'Pan',
-      initialProductPrice: 10,
-      minPrice: 12,
-      stockCapacity: 10,
-      producingCapacity: 5,
-      initialAccountBalance: 100,
-      fixedCosts: 10,
-      variableCosts: 4,
-      quality: 1,
-    }),
-    new SimpleSeller({
-      productName: 'Pan',
-      initialProductPrice: 10,
-      minPrice: 11,
-      stockCapacity: 25,
-      producingCapacity: 5,
-      initialAccountBalance: 100,
-      fixedCosts: 10,
-      variableCosts: 8,
-      quality: 0.97,
-    }),
-    new SimpleSeller({
-      productName: 'Pan',
-      initialProductPrice: 10,
-      minPrice: 10,
-      stockCapacity: 40,
-      producingCapacity: 7,
-      initialAccountBalance: 100,
-      fixedCosts: 10,
-      variableCosts: 5,
-      quality: 0.75,
-    }),
-    new SimpleSeller({
-      productName: 'Pan',
-      initialProductPrice: 10,
-      minPrice: 11,
-      stockCapacity: 50,
-      producingCapacity: 5,
-      initialAccountBalance: 100,
-      fixedCosts: 10,
-      variableCosts: 9,
-      quality: 0.5,
-    }),
-    new SimpleSeller({
-      productName: 'Pan',
-      initialProductPrice: 10,
-      minPrice: 12,
-      stockCapacity: 50,
-      producingCapacity: 4,
-      initialAccountBalance: 100,
-      fixedCosts: 10,
-      variableCosts: 8.5,
-      quality: 0.95,
-    }),
-    new SimpleSeller({
-      productName: 'Pan',
-      initialProductPrice: 10,
-      minPrice: 13,
-      stockCapacity: 20,
-      producingCapacity: 3,
-      initialAccountBalance: 80,
-      fixedCosts: 15,
-      variableCosts: 8,
-      quality: 0.98,
-    }),
-    new SimpleSeller({
-      productName: 'Pan',
-      initialProductPrice: 10,
-      minPrice: 12,
-      stockCapacity: 50,
-      producingCapacity: 5,
-      initialAccountBalance: 100,
-      fixedCosts: 25,
-      variableCosts: 6,
-      quality: 0.88,
-    }),
-    new SimpleSeller({
-      productName: 'Pan',
-      initialProductPrice: 10,
-      minPrice: 11,
-      stockCapacity: 50,
-      producingCapacity: 5,
-      initialAccountBalance: 100,
-      fixedCosts: 5,
-      variableCosts: 5,
-      quality: 0.78,
-    }),
-    new SimpleSeller({
-      productName: 'Pan',
-      initialProductPrice: 8,
-      minPrice: 8,
-      stockCapacity: 100,
-      producingCapacity: 10,
-      initialAccountBalance: 1000,
-      fixedCosts: 18,
-      variableCosts: 14,
-      quality: 0.6,
-    }),
-    new SimpleSeller({
-      productName: 'Pan',
-      initialProductPrice: 8,
-      minPrice: 10,
-      stockCapacity: 50,
-      producingCapacity: 10,
-      initialAccountBalance: 100,
-      fixedCosts: 20,
-      variableCosts: 12,
-      quality: 0.45,
-    }),
-    new SimpleSeller({
-      productName: 'Pan',
-      initialProductPrice: 12,
-      minPrice: 10,
-      stockCapacity: 500,
-      producingCapacity: 80,
-      initialAccountBalance: 100,
-      fixedCosts: 95,
-      variableCosts: 5,
-      quality: 0.72,
-    }),
-    new SimpleSeller({
-      productName: 'Pan',
-      initialProductPrice: 15,
-      minPrice: 6,
-      stockCapacity: 1000,
-      producingCapacity: 500,
-      initialAccountBalance: 100,
-      fixedCosts: 100,
-      variableCosts: 6,
-      quality: 0.95,
-    }),
-  ];
-}
 
-main();
+  window.loadURL(
+    url.format({
+      pathname: path.join(__dirname, 'index.html'),
+      protocol: 'file:',
+      slashes: true,
+    })
+  );
+
+  window.once('ready-to-show', () => {
+    window.show();
+  });
+});
