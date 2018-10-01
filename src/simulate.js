@@ -2,10 +2,9 @@ const SimpleSeller = require('./models/SimpleSeller');
 const SimpleBuyer = require('./models/SimpleBuyer');
 const World = require('./models/World');
 const Chart = require('chart.js');
-const jQuery = require('jquery');
 
 const CONSUMER_AMOUNT = 600;
-const SIMULATION_STEPS = 200;
+const SIMULATION_STEPS = 400;
 const COLORS = [
   '#f20000',
   '#400000',
@@ -52,6 +51,29 @@ const COLORS = [
   '#73002e',
   '#331a1d',
 ];
+
+function mulberry32(a) {
+  return () => {
+    var t = (a += 0x6d2b79f5);
+    t = Math.imul(t ^ (t >>> 15), t | 1);
+    t ^= t + Math.imul(t ^ (t >>> 7), t | 61);
+    return ((t ^ (t >>> 14)) >>> 0) / 4294967296;
+  };
+}
+
+function xfnv1a(k) {
+  for (var i = 0, h = 2166136261 >>> 0; i < k.length; i++)
+    h = Math.imul(h ^ k.charCodeAt(i), 16777619);
+  return () => {
+    h += h << 13;
+    h ^= h >>> 7;
+    h += h << 3;
+    h ^= h >>> 17;
+    return (h += h << 5) >>> 0;
+  };
+}
+
+const random = mulberry32(xfnv1a('apples')());
 
 let chart1 = null;
 let graphData1 = [];
@@ -164,11 +186,11 @@ function drawChart() {
 
 function createBuyers() {
   return new Array(CONSUMER_AMOUNT).fill().map(() => {
-    const q = Math.random();
+    const q = random();
     return new SimpleBuyer({
-      maxPrice: 5 + Math.random() * 10,
+      maxPrice: 5 + random() * 10,
       qualityThreshold: Math.min(0.95, 1 - q * q),
-      buyingPeriod: Math.random() > 0.5 ? 2 : 1,
+      buyingPeriod: random() > 0.5 ? 2 : 1,
       startingMoney: 200,
       salary: 200,
     });
@@ -310,5 +332,3 @@ function createSellers() {
     }),
   ];
 }
-
-//jQuery(() => main());
