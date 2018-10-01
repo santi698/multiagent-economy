@@ -53,12 +53,11 @@ const COLORS = [
   '#331a1d',
 ];
 
-let chart = null;
-let graphData = [];
+let chart1 = null;
+let graphData1 = [];
 
-function sleep(time) {
-  return new Promise((resolve) => setTimeout(resolve, time));
-}
+let chart2 = null;
+let graphData2 = [];
 
 async function main() {
   drawChart();
@@ -72,17 +71,27 @@ async function main() {
       if (elem.constructor.name !== 'SimpleSeller') {
         return;
       }
-      graphData[index] = graphData[index] || {
+      graphData1[index] = graphData1[index] || {
         backgroundColor: COLORS[index],
         borderColor: COLORS[index],
         pointRadius: 0,
         label: `Seller ${index}`,
         fill: false,
       };
-      graphData[index].data = graphData[index].data || [];
-      graphData[index].data[i] = { x: i, y: elem.accountBalance };
-      console.log(graphData);
-      chart.update();
+      graphData1[index].data = graphData1[index].data || [];
+      graphData1[index].data[i] = { x: i, y: elem.accountBalance };
+
+      graphData2[index] = graphData2[index] || {
+        backgroundColor: COLORS[index],
+        borderColor: COLORS[index],
+        pointRadius: 0,
+        label: `Seller ${index}`,
+        fill: false,
+      };
+      graphData2[index].data = graphData2[index].data || [];
+      graphData2[index].data[i] = { x: i, y: elem.productPrice };
+      chart1.update();
+      chart2.update();
     });
     agents.forEach((agent) => {
       agent.enter();
@@ -100,15 +109,14 @@ async function main() {
     //     console.log(agent.toString())
     // );
   }
-  agents.forEach((agent) => console.log(agent.toString()));
 }
 
 function drawChart() {
-  ctx = document.getElementById('chart').getContext('2d');
-  chart = new Chart(ctx, {
+  ctx1 = document.getElementById('chart1').getContext('2d');
+  chart1 = new Chart(ctx1, {
     type: 'scatter',
     data: {
-      datasets: graphData,
+      datasets: graphData1,
     },
     options: {
       responsive: true,
@@ -116,6 +124,30 @@ function drawChart() {
       title: {
         display: true,
         text: 'Money by seller',
+        fontColor: 'rgb(10, 10, 10)',
+        fontSize: 16,
+      },
+      legend: {
+        display: true,
+        labels: {
+          fontColor: 'rgb(10, 10, 10)',
+          fontSize: 12,
+        },
+      },
+    },
+  });
+  ctx2 = document.getElementById('chart2').getContext('2d');
+  chart2 = new Chart(ctx2, {
+    type: 'scatter',
+    data: {
+      datasets: graphData2,
+    },
+    options: {
+      responsive: true,
+      showLines: true,
+      title: {
+        display: true,
+        text: 'Price by seller',
         fontColor: 'rgb(10, 10, 10)',
         fontSize: 16,
       },
@@ -279,4 +311,4 @@ function createSellers() {
   ];
 }
 
-jQuery(() => main());
+//jQuery(() => main());

@@ -8,6 +8,14 @@
 </head>
 <body>
   <h1>Multiagent economy</h1>
-  <canvas id="chart" width="600" height="400"></canvas>
+  <form>
+    <div>
+      <label for="consumer_amount">Cantidad de consumidores</label>
+      <input type="number" id="consumer_amount" name="consumer_amount"/>
+    </div>
+    <button type="submit" onclick="main(); event.preventDefault()">Simular</button>
+  </form>
+  <canvas id="chart1" width="600" height="100"></canvas>
+  <canvas id="chart2" width="600" height="100"></canvas>
 </body>
 </html>
