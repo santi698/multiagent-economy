@@ -1,5 +1,6 @@
 const Agent = require('./Agent');
-const PriceUpdateStrategy1 = require('./PriceUpdateStrategy1');
+const PriceUpdateStrategy1Old = require('./PriceUpdateStrategies')
+  .PriceUpdateStrategy1Old;
 
 class SimpleSeller extends Agent {
   constructor({
@@ -12,7 +13,7 @@ class SimpleSeller extends Agent {
     initialAccountBalance,
     fixedCosts,
     variableCosts,
-    priceUpdateStrategy = PriceUpdateStrategy1,
+    priceUpdateStrategy = PriceUpdateStrategy1Old,
     initialStock = stockCapacity,
   }) {
     super();

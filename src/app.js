@@ -8,10 +8,7 @@ let window = null;
 app.once('ready', () => {
   // Create a new window
   window = new BrowserWindow({
-    // Set the initial width to 500px
-    width: 1200,
-    // Set the initial height to 400px
-    height: 800,
+    fullscreen: true,
     // set the title bar style
     titleBarStyle: 'hidden-inset',
     // set the background color to black
