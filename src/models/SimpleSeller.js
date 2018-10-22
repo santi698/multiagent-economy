@@ -31,6 +31,8 @@ class SimpleSeller extends Agent {
     this.periodQuantitySold = 0;
     this.priceUpdateStrategy = priceUpdateStrategy;
     this.quality = quality;
+    this.clients = new Set();
+    this.periodProduce = 0;
   }
 
   getProduct() {
@@ -49,7 +51,7 @@ class SimpleSeller extends Agent {
     return this.productsOnStock > 0;
   }
 
-  buyProduct() {
+  buyProduct(buyer) {
     if (this.productsOnStock == 0) {
       return;
     }
@@ -58,6 +60,8 @@ class SimpleSeller extends Agent {
     this.totalAmountSold += this.productPrice;
     this.accountBalance += this.productPrice;
     this.productsOnStock--;
+    //this.clients.add(buyer);
+
   }
 
   enter() {
@@ -65,8 +69,10 @@ class SimpleSeller extends Agent {
       this.stockCapacity - this.productsOnStock,
       this.producingCapacity
     );
+    this.periodProduce = periodProduce;
     this.productsOnStock += periodProduce;
     this.accountBalance -= this.fixedCosts + this.variableCosts * periodProduce;
+    this.clients.clear();
   }
 
   act(delta) {}

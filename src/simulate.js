@@ -24,7 +24,7 @@ function createBuyers() {
     const q = random();
     return new SimpleBuyer({
       maxPrice: 5 + random() * 10,
-      qualityThreshold: Math.min(0.95, 1 - q * q),
+      qualityThreshold: Math.min(0.95, q * q),
       buyingPeriod: random() > 0.5 ? 2 : 1,
       startingMoney: 200,
       salary: 200,

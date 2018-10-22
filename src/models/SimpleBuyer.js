@@ -83,7 +83,7 @@ class SimpleBuyer extends Agent {
 
   buyProductFrom(seller) {
     if (this.money >= seller.getProductPrice()) {
-      seller.buyProduct();
+      seller.buyProduct(this);
       this.money -= seller.getProductPrice();
     }
   }
