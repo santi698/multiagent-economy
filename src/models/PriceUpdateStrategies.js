@@ -1,4 +1,4 @@
-const random = require('../util/random')('mango');
+const random = require('../util/random')();
 
 const ConstantPriceUpdateStrategy = ({ currentPrice }) => currentPrice;
 

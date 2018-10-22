@@ -20,26 +20,41 @@ class PlottingService {
   constructor() {
     this.graphData1 = [];
     this.graphData2 = [];
-    const ctx1 = document.getElementById('chart1').getContext('2d');
-    this.chart1 = this.createChart(ctx1, this.graphData1, 'Money by seller');
-    const ctx2 = document.getElementById('chart2').getContext('2d');
-    this.chart2 = this.createChart(ctx2, this.graphData2, 'Price by seller');
+    this.graphData3 = [];
+    this.chartsContainer = document.getElementById('charts');
+    this.chart1 = this.createChart(this.graphData1, 'Money by seller');
+    this.chart2 = this.createChart(this.graphData2, 'Price by seller');
+    this.chart3 = this.createChart(this.graphData3, '% produce sold by seller');
   }
 
   connectChartsWithSimulation(simulation) {
     simulation.onSimulationStepDone((world, progress) => {
       const agents = world.getAgents();
-      agents.forEach((elem, index) => {
-        if (elem.constructor.name !== 'SimpleSeller') {
+      agents.forEach((agent, index) => {
+        if (agent.constructor.name !== 'SimpleSeller') {
           return;
         }
         this.addDataPoint(
           this.graphData1,
+          `Seller ${index}. ${agent.toString()}`,
           index,
           progress,
-          elem.accountBalance
+          agent.accountBalance
         );
-        this.addDataPoint(this.graphData2, index, progress, elem.productPrice);
+        this.addDataPoint(
+          this.graphData2,
+          `Seller ${index}. ${agent.toString()}`,
+          index,
+          progress,
+          agent.productPrice
+        );
+        this.addDataPoint(
+          this.graphData3,
+          `Seller ${index}. ${agent.toString()}`,
+          index,
+          progress,
+          agent.periodQuantitySold / agent.producingCapacity
+        );
       });
       this.chart1.update();
       this.chart2.update();
@@ -49,25 +64,32 @@ class PlottingService {
   resetCharts() {
     this.graphData1 = [];
     this.graphData2 = [];
+    this.graphData3 = [];
 
     this.chart1.update();
     this.chart2.update();
+    this.chart3.update();
   }
 
-  addDataPoint(graphData, index, x, y) {
+  addDataPoint(graphData, label, index, x, y) {
     graphData[index] = graphData[index] || {
       backgroundColor: COLORS[index],
       borderColor: COLORS[index],
       pointRadius: 0,
       lineTension: 0,
-      label: `Seller ${index}`,
+      label: label,
       fill: false,
     };
     graphData[index].data = graphData[index].data || [];
     graphData[index].data[x] = { x, y };
   }
 
-  createChart(context, graphData, title) {
+  createChart(graphData, title) {
+    const canvas = document.createElement('canvas');
+    canvas.width = 600;
+    canvas.height = 150;
+    this.chartsContainer.append(canvas);
+    const context = canvas.getContext('2d');
     return new Chart(context, {
       type: 'scatter',
       data: {

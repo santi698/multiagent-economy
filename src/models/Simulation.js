@@ -28,7 +28,6 @@ class Simulation {
     if (this.progress === this.simulationSteps) {
       return;
     }
-    console.log(`\nSimulation Step ${this.progress} Start\n`);
     const agents = this.world.getAgents();
     agents.forEach((elem, index) => {
       if (elem.constructor.name !== 'SimpleSeller') {
@@ -40,12 +39,12 @@ class Simulation {
       agents.forEach((agent) => {
         agent.act(1);
       });
-      agents.forEach((agent) => {
-        agent.exit();
-      });
       this.callbacks.onSimulationStepDone.forEach((callback) =>
         callback(this.world, this.progress)
       );
+      agents.forEach((agent) => {
+        agent.exit();
+      });
     });
     this.progress++;
     setTimeout(this.runSimulationStep.bind(this), 0);

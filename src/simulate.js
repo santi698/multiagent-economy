@@ -1,14 +1,14 @@
 const SimpleSeller = require('./models/SimpleSeller');
 const SimpleBuyer = require('./models/SimpleBuyer');
 const World = require('./models/World');
-const random = require('./util/random')('pears');
+const random = require('./util/random')();
 const Simulation = require('./models/Simulation');
 const PlottingService = require('./services/PlottingService');
 const ConstantPriceUpdateStrategy = require('./models/PriceUpdateStrategies')
   .ConstantPriceUpdateStrategy;
 
-const CONSUMER_AMOUNT = 600;
-const SIMULATION_STEPS = 400;
+const CONSUMER_AMOUNT = 400;
+const SIMULATION_STEPS = 200;
 
 async function startSimulation() {
   const agents = [...createSellers(), ...createBuyers()];
@@ -82,10 +82,10 @@ function createSellers() {
       initialProductPrice: 15,
       minPrice: 0,
       stockCapacity: 300,
-      producingCapacity: 200,
+      producingCapacity: 100,
       initialAccountBalance: 100,
-      fixedCosts: 500,
-      variableCosts: 6,
+      fixedCosts: 700,
+      variableCosts: 9,
       quality: 0.65,
     }),
   ];

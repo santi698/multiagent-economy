@@ -84,13 +84,11 @@ class SimpleSeller extends Agent {
   }
 
   toString() {
-    return `SimpleSeller<
-  stock=${this.productsOnStock}/${this.stockCapacity}
-  price=${this.productPrice.toFixed(2)}\tquality=${this.quality.toFixed(
+    return `SimpleSeller<price=${this.productPrice.toFixed(
       2
-    )}\ttotalSold=${this.totalQuantitySold}
-  accountBalance=${this.accountBalance.toFixed(2)}
->`;
+    )}\tquality=${this.quality.toFixed(2)}\tproducingCapacity=${
+      this.producingCapacity
+    }\tstockCapacity=${this.stockCapacity}>`;
   }
 }
 
