@@ -4,11 +4,10 @@ const World = require('./models/World');
 const random = require('./util/random')();
 const Simulation = require('./models/Simulation');
 const PlottingService = require('./services/PlottingService');
-const ConstantPriceUpdateStrategy = require('./models/PriceUpdateStrategies')
-  .ConstantPriceUpdateStrategy;
+const { SeekDesiredQuantityLinear } = require('./models/PriceUpdateStrategies');
 
-const CONSUMER_AMOUNT = 400;
-const SIMULATION_STEPS = 200;
+const CONSUMER_AMOUNT = 50;
+const SIMULATION_STEPS = 500;
 
 async function startSimulation() {
   const agents = [...createSellers(), ...createBuyers()];
@@ -25,68 +24,28 @@ function createBuyers() {
     return new SimpleBuyer({
       maxPrice: 5 + random() * 10,
       qualityThreshold: Math.min(0.95, q * q),
-      buyingPeriod: random() > 0.5 ? 2 : 1,
-      startingMoney: 200,
-      salary: 200,
+      buyingPeriod: 1, // random() > 0.9 ? 2 : 1,
+      startingMoney: 250,
+      salary: 250,
     });
   });
 }
 function createSellers() {
   return [
     new SimpleSeller({
-      productName: 'Pan',
-      initialProductPrice: 10,
-      minPrice: 0,
-      stockCapacity: 25,
-      producingCapacity: 5,
-      initialAccountBalance: 100,
-      fixedCosts: 10,
-      variableCosts: 8,
-      quality: 0.97,
-    }),
-    new SimpleSeller({
-      productName: 'Pan',
-      initialProductPrice: 10,
-      minPrice: 0,
-      stockCapacity: 40,
-      producingCapacity: 7,
-      initialAccountBalance: 100,
-      fixedCosts: 10,
-      variableCosts: 5,
+      producingCapacity: 15,
       quality: 0.75,
+      priceUpdatePeriod: 7,
     }),
     new SimpleSeller({
-      productName: 'Pan',
-      initialProductPrice: 10,
-      minPrice: 0,
-      stockCapacity: 50,
-      producingCapacity: 5,
-      initialAccountBalance: 100,
-      fixedCosts: 10,
-      variableCosts: 9,
+      producingCapacity: 25,
       quality: 0.5,
+      priceUpdatePeriod: 7,
     }),
     new SimpleSeller({
-      productName: 'Pan',
-      initialProductPrice: 10,
-      minPrice: 0,
-      stockCapacity: 50,
-      producingCapacity: 4,
-      initialAccountBalance: 100,
-      fixedCosts: 10,
-      variableCosts: 8.5,
-      quality: 0.95,
-    }),
-    new SimpleSeller({
-      productName: 'Pan',
-      initialProductPrice: 15,
-      minPrice: 0,
-      stockCapacity: 300,
-      producingCapacity: 100,
-      initialAccountBalance: 100,
-      fixedCosts: 700,
-      variableCosts: 9,
+      producingCapacity: 50,
       quality: 0.65,
+      priceUpdatePeriod: 7,
     }),
   ];
 }

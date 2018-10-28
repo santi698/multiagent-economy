@@ -1,25 +1,27 @@
 const Agent = require('./Agent');
-const PriceUpdateStrategy1Old = require('./PriceUpdateStrategies')
-  .PriceUpdateStrategy1Old;
+const SeekDesiredQuantityConstant = require('./PriceUpdateStrategies')
+  .SeekDesiredQuantityConstant;
 
 class SimpleSeller extends Agent {
   constructor({
-    productName,
-    initialProductPrice,
     quality,
-    minPrice,
-    stockCapacity,
     producingCapacity,
-    initialAccountBalance,
-    fixedCosts,
-    variableCosts,
-    priceUpdateStrategy = PriceUpdateStrategy1Old,
+    productName = 'Pan',
+    minPrice = 0,
+    stockCapacity = 5 * producingCapacity,
+    initialAccountBalance = producingCapacity,
+    fixedCosts = Math.sqrt(producingCapacity),
+    variableCosts = 10 * quality,
+    initialProductPrice = variableCosts + fixedCosts / producingCapacity,
+    priceUpdatePeriod = 1,
+    priceUpdateStrategy = SeekDesiredQuantityConstant,
     initialStock = stockCapacity,
   }) {
     super();
     this.productName = productName;
     this.minPrice = minPrice;
     this.productPrice = initialProductPrice;
+    this.priceHistory = [this.productPrice];
     this.stockCapacity = stockCapacity;
     this.productsOnStock = initialStock;
     this.producingCapacity = producingCapacity;
@@ -29,22 +31,11 @@ class SimpleSeller extends Agent {
     this.totalQuantitySold = 0;
     this.totalAmountSold = 0;
     this.periodQuantitySold = 0;
+    this.quantitySoldHistory = [0];
     this.priceUpdateStrategy = priceUpdateStrategy;
+    this.priceUpdatePeriod = priceUpdatePeriod;
     this.quality = quality;
-    this.clients = new Set();
     this.periodProduce = 0;
-  }
-
-  getProduct() {
-    return this.productName;
-  }
-
-  getProductPrice() {
-    return this.productPrice;
-  }
-
-  getQuality() {
-    return this.quality;
   }
 
   hasProductsOnStock() {
@@ -52,7 +43,7 @@ class SimpleSeller extends Agent {
   }
 
   buyProduct(buyer) {
-    if (this.productsOnStock == 0) {
+    if (this.productsOnStock === 0) {
       return;
     }
     this.totalQuantitySold++;
@@ -60,8 +51,6 @@ class SimpleSeller extends Agent {
     this.totalAmountSold += this.productPrice;
     this.accountBalance += this.productPrice;
     this.productsOnStock--;
-    //this.clients.add(buyer);
-
   }
 
   enter() {
@@ -72,21 +61,32 @@ class SimpleSeller extends Agent {
     this.periodProduce = periodProduce;
     this.productsOnStock += periodProduce;
     this.accountBalance -= this.fixedCosts + this.variableCosts * periodProduce;
-    this.clients.clear();
   }
 
-  act(delta) {}
+  act() {}
 
-  exit() {
-    this.productPrice = this.priceUpdateStrategy({
-      minPrice: this.minPrice,
-      currentPrice: this.productPrice,
-      quantitySold: this.periodQuantitySold,
-      producingCapacity: this.producingCapacity,
-      fixedCosts: this.fixedCosts,
-      variableCosts: this.variableCosts,
-    });
+  exit({ day }) {
+    if (day % this.priceUpdatePeriod === 0) {
+      this.updatePrice();
+    }
+    this.quantitySoldHistory.push(this.periodQuantitySold);
+    this.priceHistory.push(this.productPrice);
     this.periodQuantitySold = 0;
+  }
+
+  updatePrice() {
+    this.productPrice = Math.max(
+      0,
+      this.priceUpdateStrategy({
+        minPrice: this.minPrice,
+        priceHistory: this.priceHistory,
+        quantitySoldHistory: this.quantitySoldHistory,
+        producingCapacity: this.producingCapacity,
+        fixedCosts: this.fixedCosts,
+        variableCosts: this.variableCosts,
+        updatePeriod: this.priceUpdatePeriod,
+      })
+    );
   }
 
   toString() {

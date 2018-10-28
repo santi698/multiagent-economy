@@ -25,8 +25,8 @@ class PlottingService {
     this.chartsContainer = document.getElementById('charts');
     this.chart1 = this.createChart(this.graphData1, 'Money by seller');
     this.chart2 = this.createChart(this.graphData2, 'Price by seller');
-    this.chart3 = this.createChart(this.graphData3, '% produce sold by seller');
-    this.chart4 = this.createChart(this.graphData4, 'Profit');
+    this.chart3 = this.createChart(this.graphData3, 'Quantity Sold');
+    this.chart4 = this.createChart(this.graphData4, 'Stock');
   }
 
   connectChartsWithSimulation(simulation) {
@@ -55,14 +55,14 @@ class PlottingService {
           `Seller ${index}. ${agent.toString()}`,
           index,
           progress,
-          agent.periodQuantitySold / agent.producingCapacity
+          agent.periodQuantitySold
         );
         this.addDataPoint(
           this.graphData4,
           `Seller ${index}. ${agent.toString()}`,
           index,
           progress,
-          agent.productPrice * agent.periodQuantitySold - agent.variableCosts * agent.periodProduce - agent.fixedCosts
+          agent.productsOnStock
         );
       });
       this.chart1.update();

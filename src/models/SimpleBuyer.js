@@ -70,8 +70,8 @@ class SimpleBuyer extends Agent {
         (agent) =>
           agent.constructor.name === 'SimpleSeller' &&
           agent.hasProductsOnStock() &&
-          agent.getProductPrice() <= this.maxPrice &&
-          agent.getQuality() >= this.qualityThreshold
+          agent.productPrice <= this.maxPrice &&
+          agent.quality >= this.qualityThreshold
       )
       .sort(priceWithQuality);
     if (sellers.length > 0) {
@@ -82,9 +82,9 @@ class SimpleBuyer extends Agent {
   }
 
   buyProductFrom(seller) {
-    if (this.money >= seller.getProductPrice()) {
+    if (this.money >= seller.productPrice) {
       seller.buyProduct(this);
-      this.money -= seller.getProductPrice();
+      this.money -= seller.productPrice;
     }
   }
 }

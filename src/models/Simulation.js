@@ -34,20 +34,20 @@ class Simulation {
         return;
       }
       agents.forEach((agent) => {
-        agent.enter();
+        agent.enter({ day: this.progress });
       });
       agents.forEach((agent) => {
-        agent.act(1);
+        agent.act({ day: this.progress });
       });
       this.callbacks.onSimulationStepDone.forEach((callback) =>
         callback(this.world, this.progress)
       );
       agents.forEach((agent) => {
-        agent.exit();
+        agent.exit({ day: this.progress });
       });
     });
     this.progress++;
-    setTimeout(this.runSimulationStep.bind(this), 0);
+    setTimeout(this.runSimulationStep.bind(this), 50);
   }
 }
 
