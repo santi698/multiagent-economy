@@ -6,7 +6,10 @@ const Simulation = require('./models/Simulation');
 const PlottingService = require('./services/PlottingService');
 const { SeekDesiredQuantityLinear } = require('./models/PriceUpdateStrategies');
 
-const CONSUMER_AMOUNT = 50;
+const CONSUMER_AMOUNTS = {
+  simple: 100,
+  qualitySavvy: 5,
+};
 const SIMULATION_STEPS = 500;
 
 async function startSimulation() {
@@ -19,27 +22,39 @@ async function startSimulation() {
 }
 
 function createBuyers() {
-  return new Array(CONSUMER_AMOUNT).fill().map(() => {
+  const simpleConsumers = new Array(CONSUMER_AMOUNTS.simple).fill().map(() => {
     const q = random();
     return new SimpleBuyer({
       maxPrice: 5 + random() * 10,
-      qualityThreshold: Math.min(0.95, q * q),
-      buyingPeriod: 1, // random() > 0.9 ? 2 : 1,
+      buyingPeriod: Math.round(3 + random() * 2),
       startingMoney: 250,
       salary: 250,
     });
   });
+  const qualitySavvyConsumers = new Array(CONSUMER_AMOUNTS.qualitySavvy)
+    .fill()
+    .map(() => {
+      const q = random();
+      return new SimpleBuyer({
+        maxPrice: 5 + random() * 10,
+        buyingPeriod: Math.round(3 + random() * 2),
+        startingMoney: 250,
+        salary: 250,
+      });
+    });
+  return [...simpleConsumers, ...qualitySavvyConsumers];
 }
 function createSellers() {
   return [
     new SimpleSeller({
       producingCapacity: 15,
-      quality: 0.75,
+      quality: 0.95,
       priceUpdatePeriod: 7,
+      variableCosts: 9,
     }),
     new SimpleSeller({
       producingCapacity: 25,
-      quality: 0.5,
+      quality: 0.9,
       priceUpdatePeriod: 7,
     }),
     new SimpleSeller({

@@ -1,14 +1,15 @@
 const Agent = require('./Agent');
-const priceWithQuality = require('../sorting/priceWithQuality');
+const priceThenQuality = require('../sorting/priceThenQuality');
 
 const SALARY_PERIOD = 30;
 class SimpleBuyer extends Agent {
   constructor({
     maxPrice,
-    qualityThreshold,
+    qualityThreshold = 0,
     buyingPeriod = 1,
     startingMoney,
     salary,
+    productPreference = priceThenQuality,
   }) {
     super();
     this.periodsAlive = 0;
@@ -18,6 +19,7 @@ class SimpleBuyer extends Agent {
     this.boughtThisPeriod = false;
     this.money = startingMoney;
     this.salary = salary;
+    this.productPreference = productPreference;
   }
 
   act() {
@@ -55,7 +57,7 @@ class SimpleBuyer extends Agent {
           agent.constructor.name === 'SimpleSeller' &&
           agent.hasProductsOnStock()
       )
-      .sort(priceWithQuality);
+      .sort(this.productPreference);
     if (sellers.length > 0) {
       this.buyProductFrom(sellers[0]);
     } else {
@@ -73,7 +75,7 @@ class SimpleBuyer extends Agent {
           agent.productPrice <= this.maxPrice &&
           agent.quality >= this.qualityThreshold
       )
-      .sort(priceWithQuality);
+      .sort(this.productPreference);
     if (sellers.length > 0) {
       this.buyProductFrom(sellers[0]);
       return true;
