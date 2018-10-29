@@ -1,5 +1,6 @@
 const SimpleSeller = require('./models/SimpleSeller');
 const SimpleBuyer = require('./models/SimpleBuyer');
+const QualitySavvyBuyer = require('./models/QualitySavvyBuyer');
 const World = require('./models/World');
 const random = require('./util/random')();
 const Simulation = require('./models/Simulation');
@@ -8,7 +9,7 @@ const { SeekDesiredQuantityLinear } = require('./models/PriceUpdateStrategies');
 
 const CONSUMER_AMOUNTS = {
   simple: 100,
-  qualitySavvy: 5,
+  qualitySavvy: 0,
 };
 const SIMULATION_STEPS = 500;
 
@@ -35,7 +36,7 @@ function createBuyers() {
     .fill()
     .map(() => {
       const q = random();
-      return new SimpleBuyer({
+      return new QualitySavvyBuyer({
         maxPrice: 5 + random() * 10,
         buyingPeriod: Math.round(3 + random() * 2),
         startingMoney: 250,
@@ -47,7 +48,7 @@ function createBuyers() {
 function createSellers() {
   return [
     new SimpleSeller({
-      producingCapacity: 15,
+      producingCapacity: 30,
       quality: 0.95,
       priceUpdatePeriod: 7,
       variableCosts: 9,

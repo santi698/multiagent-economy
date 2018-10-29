@@ -1,9 +1,9 @@
 const Chart = require('chart.js');
 
 const COLORS = [
-  '#d32f2f',
-  '#f06292',
-  '#ab47bc',
+  'red',
+  'blue',
+  'green',
   '#283593',
   '#42a5f5',
   '#81d4fa',
@@ -26,8 +26,8 @@ class PlottingService {
     this.chartsContainer = document.getElementById('charts');
     this.chart1 = this.createChart(this.graphData1, 'Money by seller');
     this.chart2 = this.createChart(this.graphData2, 'Price by seller');
-    this.chart3 = this.createChart(this.graphData3, 'Quantity Sold');
-    this.chart4 = this.createChart(this.graphData4, 'Stock');
+    this.chart3 = this.createChart(this.graphData3, 'Stock');
+    this.chart4 = this.createChart(this.graphData4, 'Quantity sold');
     this.chart5 = this.createChart(this.graphData5, 'Profit');
   }
 
@@ -57,14 +57,15 @@ class PlottingService {
           `Seller ${index}. ${agent.toString()}`,
           index,
           progress,
-          agent.periodQuantitySold
+          agent.productsOnStock
         );
         this.addDataPoint(
           this.graphData4,
           `Seller ${index}. ${agent.toString()}`,
           index,
           progress,
-          agent.productsOnStock
+          
+          agent.periodQuantitySold
         );
         this.addDataPoint(
           this.graphData5,
