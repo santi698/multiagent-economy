@@ -8,7 +8,8 @@
     "url": "git@github.com:santi698/multiagent-economy.git"
   },
   "scripts": {
-    "start": "electron src/app.js"
+    "start": "electron src/app.js",
+    "debug": "electron --inspect src/app.js"
   },
   "author": "Santiago Ocamica; Juan Pablo Dantur",
   "license": "MIT",

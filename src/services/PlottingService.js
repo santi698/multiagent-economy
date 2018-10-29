@@ -22,11 +22,13 @@ class PlottingService {
     this.graphData2 = [];
     this.graphData3 = [];
     this.graphData4 = [];
+    this.graphData5 = [];
     this.chartsContainer = document.getElementById('charts');
     this.chart1 = this.createChart(this.graphData1, 'Money by seller');
     this.chart2 = this.createChart(this.graphData2, 'Price by seller');
     this.chart3 = this.createChart(this.graphData3, 'Quantity Sold');
     this.chart4 = this.createChart(this.graphData4, 'Stock');
+    this.chart5 = this.createChart(this.graphData5, 'Profit');
   }
 
   connectChartsWithSimulation(simulation) {
@@ -64,11 +66,19 @@ class PlottingService {
           progress,
           agent.productsOnStock
         );
+        this.addDataPoint(
+          this.graphData5,
+          `Seller ${index}. ${agent.toString()}`,
+          index,
+          progress,
+          agent.productPrice * agent.periodQuantitySold - agent.variableCosts * agent.periodProduce - agent.fixedCosts
+        );
       });
       this.chart1.update();
       this.chart2.update();
       this.chart3.update();
       this.chart4.update();
+      this.chart5.update();
     });
   }
 
@@ -77,11 +87,13 @@ class PlottingService {
     this.graphData2 = [];
     this.graphData3 = [];
     this.graphData4 = [];
+    this.graphData5 = [];
 
     this.chart1.update();
     this.chart2.update();
     this.chart3.update();
     this.chart4.update();
+    this.chart5.update();
   }
 
   addDataPoint(graphData, label, index, x, y) {
