@@ -1,7 +1,7 @@
 const Agent = require('./Agent');
 const priceThenQuality = require('../sorting/priceThenQuality');
 
-const SALARY_PERIOD = 30;
+const SALARY_PERIOD = 1;
 class SimpleBuyer extends Agent {
   constructor({
     maxPrice,

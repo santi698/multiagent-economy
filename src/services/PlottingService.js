@@ -1,9 +1,9 @@
 const Chart = require('chart.js');
 
 const COLORS = [
-  '#d32f2f',
-  '#f06292',
-  '#ab47bc',
+  'red',
+  'blue',
+  'green',
   '#283593',
   '#42a5f5',
   '#81d4fa',
