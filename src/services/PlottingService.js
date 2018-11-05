@@ -103,6 +103,9 @@ class PlottingService {
     canvas.height = 150;
     this.chartsContainer.append(canvas);
     const context = canvas.getContext('2d');
+    const simulationSteps = Number(
+      document.getElementById('simulationSteps').value
+    );
     return new Chart(context, {
       type: 'scatter',
       data: {
@@ -119,7 +122,7 @@ class PlottingService {
             {
               ticks: {
                 min: 0,
-                max: SIMULATION_STEPS,
+                max: simulationSteps,
               },
             },
           ],

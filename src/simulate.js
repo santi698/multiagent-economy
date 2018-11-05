@@ -6,23 +6,23 @@ const Simulation = require('./models/Simulation');
 const PlottingService = require('./services/PlottingService');
 const { SeekDesiredQuantityLinear } = require('./models/PriceUpdateStrategies');
 
-const CONSUMER_AMOUNTS = {
-  simple: 100,
-  qualitySavvy: 5,
-};
-const SIMULATION_STEPS = 500;
-
 async function startSimulation() {
+  const plottingService = new PlottingService();
   const agents = [...createSellers(), ...createBuyers()];
   const world = new World(agents);
-  const simulation = new Simulation(world, SIMULATION_STEPS);
-  const plottingService = new PlottingService();
+  const simulationSteps = Number(
+    document.getElementById('simulationSteps').value
+  );
+  const simulation = new Simulation(world, simulationSteps);
   plottingService.connectChartsWithSimulation(simulation);
   simulation.simulate();
 }
 
 function createBuyers() {
-  const simpleConsumers = new Array(CONSUMER_AMOUNTS.simple).fill().map(() => {
+  const simpleConsumerAmount = Number(
+    document.getElementById('simpleConsumerAmount').value
+  );
+  const simpleConsumers = new Array(simpleConsumerAmount).fill().map(() => {
     const q = random();
     return new SimpleBuyer({
       maxPrice: 5 + random() * 10,
@@ -31,7 +31,10 @@ function createBuyers() {
       salary: 250,
     });
   });
-  const qualitySavvyConsumers = new Array(CONSUMER_AMOUNTS.qualitySavvy)
+  const qualitySavvyConsumerAmount = Number(
+    document.getElementById('qualitySavvyConsumerAmount').value
+  );
+  const qualitySavvyConsumers = new Array(qualitySavvyConsumerAmount)
     .fill()
     .map(() => {
       const q = random();

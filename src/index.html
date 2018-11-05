@@ -8,7 +8,19 @@
 </head>
 <body>
   <h1>Multiagent economy</h1>
-  <form>
+  <form style="display: flex; flex-direction: column; width: 400px">
+    <label>
+      Pasos a simular
+      <input type="number" name="simulationSteps" id="simulationSteps" value="500"/>
+    </label>
+    <label>
+      Cantidad de consumidores que eligen por precio
+      <input type="number" name="simpleConsumerAmount" id="simpleConsumerAmount" value="100"/>
+    </label>
+    <label>
+      Cantidad de consumidores que tienen en cuenta calidad
+      <input type="number" name="qualitySavvyConsumerAmount" id="qualitySavvyConsumerAmount" value="5" />
+    </label>
     <button type="button" onclick="startSimulation()">Simular</button>
   </form>
   <div id="charts"></div>
