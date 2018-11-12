@@ -35,7 +35,7 @@ function createBuyers() {
     return new SimpleBuyer({
       maxPrice: 5 + random() * 10,
       buyingPeriod: Math.round(3 + random() * 2),
-      startingMoney: salary,
+      startingMoney: 0,
       salary: salary,
     });
   });
@@ -49,7 +49,7 @@ function createBuyers() {
       return new SimpleBuyer({
         maxPrice: 5 + random() * 10,
         buyingPeriod: Math.round(3 + random() * 2),
-        startingMoney: salary,
+        startingMoney: 0,
         salary: salary,
       });
     });
@@ -62,22 +62,27 @@ function createSellers() {
         document.getElementById('seller1ProducingCapacity').value
       ),
       quality: Number(document.getElementById('seller1Quality').value),
-      priceUpdatePeriod: 7,
-      variableCosts: 9,
+      priceUpdatePeriod: Number(
+        document.getElementById('priceUpdateFrequency').value
+      ),
     }),
     new SimpleSeller({
       producingCapacity: Number(
         document.getElementById('seller2ProducingCapacity').value
       ),
       quality: Number(document.getElementById('seller2Quality').value),
-      priceUpdatePeriod: 7,
+      priceUpdatePeriod: Number(
+        document.getElementById('priceUpdateFrequency').value
+      ),
     }),
     new SimpleSeller({
       producingCapacity: Number(
         document.getElementById('seller3ProducingCapacity').value
       ),
       quality: Number(document.getElementById('seller3Quality').value),
-      priceUpdatePeriod: 7,
+      priceUpdatePeriod: Number(
+        document.getElementById('priceUpdateFrequency').value
+      ),
     }),
   ];
 }

@@ -11,7 +11,7 @@
   <form style="display: flex; flex-direction: column; width: 400px">
     <label>
       Pasos a simular
-      <input type="number" name="simulationSteps" id="simulationSteps" value="250"/>
+      <input type="number" name="simulationSteps" id="simulationSteps" value="120"/>
     </label>
     <label>
       Cantidad de consumidores que eligen por precio
@@ -19,18 +19,22 @@
     </label>
     <label>
       Cantidad de consumidores que tienen en cuenta calidad
-      <input type="number" name="qualitySavvyConsumerAmount" id="qualitySavvyConsumerAmount" value="5" />
+      <input type="number" name="qualitySavvyConsumerAmount" id="qualitySavvyConsumerAmount" value="100" />
     </label>
     <label>
       Salario de los consumidores (cada 30 días)
       <input type="number" name="consumerSalary" id="consumerSalary" value="300" />
+    </label>
+    <label>
+      Frecuencia de actualización de precios
+      <input type="number" name="priceUpdateFrequency" id="priceUpdateFrequency" value="7" />
     </label>
     <div style="display: flex; flex-direction: row;">
       <fieldset id="seller1">
         <legend>Vendedor 1</legend>
         <label>
           Capacidad de producción
-          <input type="number" name="seller1ProducingCapacity" id="seller1ProducingCapacity" value="15" />
+          <input type="number" name="seller1ProducingCapacity" id="seller1ProducingCapacity" value="100" />
         </label>
         <label>
           Calidad
@@ -41,7 +45,7 @@
         <legend>Vendedor 2</legend>
         <label>
           Capacidad de producción
-          <input type="number" name="seller2ProducingCapacity" id="seller2ProducingCapacity" value="15" />
+          <input type="number" name="seller2ProducingCapacity" id="seller2ProducingCapacity" value="100" />
         </label>
         <label>
           Calidad
@@ -52,7 +56,7 @@
         <legend>Vendedor 3</legend>
         <label>
           Capacidad de producción
-          <input type="number" name="seller3ProducingCapacity" id="seller3ProducingCapacity" value="15" />
+          <input type="number" name="seller3ProducingCapacity" id="seller3ProducingCapacity" value="100" />
         </label>
         <label>
           Calidad
