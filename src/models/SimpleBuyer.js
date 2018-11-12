@@ -1,5 +1,6 @@
 const Agent = require('./Agent');
 const priceThenQuality = require('../sorting/priceThenQuality');
+const random = require('../util/random')();
 
 const SALARY_PERIOD = 30;
 class SimpleBuyer extends Agent {
@@ -59,7 +60,8 @@ class SimpleBuyer extends Agent {
       )
       .sort(this.productPreference);
     if (sellers.length > 0) {
-      this.buyProductFrom(sellers[0]);
+      const chosenSeller = this.chooseOneOfBest(sellers);
+      this.buyProductFrom(chosenSeller);
     } else {
       console.debug('No Products');
     }
@@ -77,10 +79,17 @@ class SimpleBuyer extends Agent {
       )
       .sort(this.productPreference);
     if (sellers.length > 0) {
-      this.buyProductFrom(sellers[0]);
+      const chosenSeller = this.chooseOneOfBest(sellers);
+      this.buyProductFrom(chosenSeller);
       return true;
     }
     return false;
+  }
+
+  chooseOneOfBest(sellers) {
+    const chosenSellers = sellers.filter((s) => s.equalsByPrice(sellers[0]));
+    const chosenIndex = Math.floor(random() * chosenSellers.length);
+    return chosenSellers[chosenIndex];
   }
 
   buyProductFrom(seller) {
