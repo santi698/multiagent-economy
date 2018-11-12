@@ -18,7 +18,15 @@ async function startSimulation() {
   simulation.simulate();
 }
 
+function deleteCharts() {
+  const chartsContainer = document.getElementById('charts');
+  while (chartsContainer.firstChild) {
+    chartsContainer.firstChild.remove();
+  }
+}
+
 function createBuyers() {
+  const salary = Number(document.getElementById('consumerSalary').value);
   const simpleConsumerAmount = Number(
     document.getElementById('simpleConsumerAmount').value
   );
@@ -27,8 +35,8 @@ function createBuyers() {
     return new SimpleBuyer({
       maxPrice: 5 + random() * 10,
       buyingPeriod: Math.round(3 + random() * 2),
-      startingMoney: 250,
-      salary: 250,
+      startingMoney: salary,
+      salary: salary,
     });
   });
   const qualitySavvyConsumerAmount = Number(
@@ -41,8 +49,8 @@ function createBuyers() {
       return new SimpleBuyer({
         maxPrice: 5 + random() * 10,
         buyingPeriod: Math.round(3 + random() * 2),
-        startingMoney: 250,
-        salary: 250,
+        startingMoney: salary,
+        salary: salary,
       });
     });
   return [...simpleConsumers, ...qualitySavvyConsumers];
@@ -50,19 +58,25 @@ function createBuyers() {
 function createSellers() {
   return [
     new SimpleSeller({
-      producingCapacity: 15,
-      quality: 0.95,
+      producingCapacity: Number(
+        document.getElementById('seller1ProducingCapacity').value
+      ),
+      quality: Number(document.getElementById('seller1Quality').value),
       priceUpdatePeriod: 7,
       variableCosts: 9,
     }),
     new SimpleSeller({
-      producingCapacity: 25,
-      quality: 0.9,
+      producingCapacity: Number(
+        document.getElementById('seller2ProducingCapacity').value
+      ),
+      quality: Number(document.getElementById('seller2Quality').value),
       priceUpdatePeriod: 7,
     }),
     new SimpleSeller({
-      producingCapacity: 50,
-      quality: 0.65,
+      producingCapacity: Number(
+        document.getElementById('seller3ProducingCapacity').value
+      ),
+      quality: Number(document.getElementById('seller3Quality').value),
       priceUpdatePeriod: 7,
     }),
   ];

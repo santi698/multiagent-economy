@@ -21,7 +21,46 @@
       Cantidad de consumidores que tienen en cuenta calidad
       <input type="number" name="qualitySavvyConsumerAmount" id="qualitySavvyConsumerAmount" value="5" />
     </label>
-    <button type="button" onclick="startSimulation()">Simular</button>
+    <label>
+      Salario de los consumidores (cada 30 días)
+      <input type="number" name="consumerSalary" id="consumerSalary" value="300" />
+    </label>
+    <div style="display: flex; flex-direction: row;">
+      <fieldset id="seller1">
+        <legend>Vendedor 1</legend>
+        <label>
+          Capacidad de producción
+          <input type="number" name="seller1ProducingCapacity" id="seller1ProducingCapacity" value="15" />
+        </label>
+        <label>
+          Calidad
+          <input type="number" name="seller1Quality" id="seller1Quality" value="0.9" />
+        </label>
+      </fieldset>
+      <fieldset id="seller2">
+        <legend>Vendedor 2</legend>
+        <label>
+          Capacidad de producción
+          <input type="number" name="seller2ProducingCapacity" id="seller2ProducingCapacity" value="15" />
+        </label>
+        <label>
+          Calidad
+          <input type="number" name="seller2Quality" id="seller2Quality" value="0.9" />
+        </label>
+      </fieldset>
+      <fieldset id="seller3">
+        <legend>Vendedor 3</legend>
+        <label>
+          Capacidad de producción
+          <input type="number" name="seller3ProducingCapacity" id="seller3ProducingCapacity" value="15" />
+        </label>
+        <label>
+          Calidad
+          <input type="number" name="seller3Quality" id="seller3Quality" value="0.9" />
+        </label>
+      </fieldset>
+    </div>
+    <button type="button" onclick="deleteCharts();startSimulation()">Simular</button>
   </form>
   <div id="charts"></div>
 </body>

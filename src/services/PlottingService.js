@@ -82,6 +82,10 @@ class PlottingService {
     this.chart2.update();
     this.chart3.update();
     this.chart4.update();
+
+    while (this.chartsContainer.firstChild) {
+      this.chartsContainer.firstChild.remove();
+    }
   }
 
   addDataPoint(graphData, label, index, x, y) {
