@@ -66,7 +66,7 @@ class SimpleSeller extends Agent {
   act() {}
 
   exit({ day }) {
-    if (day % this.priceUpdatePeriod === 0) {
+    if (day % this.priceUpdatePeriod === 0 && day >= 3) {
       this.updatePrice();
     }
     this.quantitySoldHistory.push(this.periodQuantitySold);
@@ -87,6 +87,10 @@ class SimpleSeller extends Agent {
         updatePeriod: this.priceUpdatePeriod,
       })
     );
+  }
+
+  equalsByPrice(seller) {
+    return this.productPrice === seller.productPrice;
   }
 
   toString() {
