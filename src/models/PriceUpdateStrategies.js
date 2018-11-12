@@ -1,6 +1,6 @@
 const random = require('../util/random')();
 
-const SEEK_DELTA = 0.05;
+const SEEK_DELTA = 0.01;
 
 const ConstantPriceUpdateStrategy = ({ priceHistory }) =>
   priceHistory.slice(-1)[0];
@@ -73,10 +73,7 @@ function SeekDesiredQuantityConstant({
   } else {
     const minDesiredQuantity = (updatePeriod * fixedCosts) / profitPerSale;
     const profitIndicator = currentSold - minDesiredQuantity;
-    return Math.max(
-      variableCosts,
-      currentPrice + Math.sign(profitIndicator) * SEEK_DELTA
-    );
+    return currentPrice + Math.sign(profitIndicator) * SEEK_DELTA;
   }
 }
 
