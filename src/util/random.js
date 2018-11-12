@@ -19,7 +19,8 @@ function xfnv1a(k) {
   };
 }
 
-const seed = Math.round(Math.random() * 5000);
-console.log(`Randomizing with seed ${seed}`);
-
-module.exports = () => mulberry32(xfnv1a(seed)());
+module.exports = () => {
+  const seed = Math.round(Math.random() * 5000);
+  console.log(`Randomizing with seed ${seed}`);
+  return mulberry32(xfnv1a(seed)());
+};
