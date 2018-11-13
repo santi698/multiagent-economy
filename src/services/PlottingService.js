@@ -98,6 +98,7 @@ class PlottingService {
       lineTension: 0,
       label: label,
       fill: false,
+      steppedLine: true,
     };
     graphData[index].data = graphData[index].data || [];
     graphData[index].data[x] = { x, y };
