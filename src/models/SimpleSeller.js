@@ -14,7 +14,7 @@ class SimpleSeller extends Agent {
     variableCosts = 10 * quality,
     initialProductPrice = variableCosts + fixedCosts / producingCapacity,
     priceUpdatePeriod = 1,
-    priceUpdateStrategy = SeekDesiredQuantityConstant,
+    priceUpdateStrategy = SeekDesiredQuantityConstant(),
     initialStock = stockCapacity,
   }) {
     super();
@@ -87,6 +87,9 @@ class SimpleSeller extends Agent {
         updatePeriod: this.priceUpdatePeriod,
       })
     );
+    if (isNaN(this.productPrice)) {
+      debugger;
+    }
   }
 
   equalsByPrice(seller) {

@@ -1,10 +1,12 @@
 const SimpleSeller = require('./models/SimpleSeller');
 const SimpleBuyer = require('./models/SimpleBuyer');
 const World = require('./models/World');
-const random = require('./util/random')();
+const Random = require('./util/Random');
 const Simulation = require('./models/Simulation');
 const PlottingService = require('./services/PlottingService');
-const { SeekDesiredQuantityLinear } = require('./models/PriceUpdateStrategies');
+const PriceUpdateStrategies = require('./models/PriceUpdateStrategies');
+
+const random = new Random();
 
 async function startSimulation() {
   const plottingService = new PlottingService();
@@ -31,10 +33,10 @@ function createBuyers() {
     document.getElementById('simpleConsumerAmount').value
   );
   const simpleConsumers = new Array(simpleConsumerAmount).fill().map(() => {
-    const q = random();
+    const q = random.next();
     return new SimpleBuyer({
-      maxPrice: 5 + random() * 10,
-      buyingPeriod: Math.round(3 + random() * 2),
+      maxPrice: 5 + random.next() * 10,
+      buyingPeriod: Math.round(3 + random.next() * 2),
       startingMoney: 0,
       salary: salary,
     });
@@ -45,10 +47,10 @@ function createBuyers() {
   const qualitySavvyConsumers = new Array(qualitySavvyConsumerAmount)
     .fill()
     .map(() => {
-      const q = random();
+      const q = random.next();
       return new SimpleBuyer({
-        maxPrice: 5 + random() * 10,
-        buyingPeriod: Math.round(3 + random() * 2),
+        maxPrice: 5 + random.next() * 10,
+        buyingPeriod: Math.round(3 + random.next() * 2),
         startingMoney: 0,
         salary: salary,
       });
@@ -65,6 +67,9 @@ function createSellers() {
       priceUpdatePeriod: Number(
         document.getElementById('priceUpdateFrequency').value
       ),
+      priceUpdateStrategy: PriceUpdateStrategies[
+        document.getElementById('seller1Strategy').value
+      ](),
     }),
     new SimpleSeller({
       producingCapacity: Number(
@@ -74,6 +79,9 @@ function createSellers() {
       priceUpdatePeriod: Number(
         document.getElementById('priceUpdateFrequency').value
       ),
+      priceUpdateStrategy: PriceUpdateStrategies[
+        document.getElementById('seller2Strategy').value
+      ](),
     }),
     new SimpleSeller({
       producingCapacity: Number(
@@ -83,6 +91,9 @@ function createSellers() {
       priceUpdatePeriod: Number(
         document.getElementById('priceUpdateFrequency').value
       ),
+      priceUpdateStrategy: PriceUpdateStrategies[
+        document.getElementById('seller3Strategy').value
+      ](),
     }),
   ];
 }

@@ -19,8 +19,18 @@ function xfnv1a(k) {
   };
 }
 
-module.exports = () => {
-  const seed = Math.round(Math.random() * 5000);
-  console.log(`Randomizing with seed ${seed}`);
-  return mulberry32(xfnv1a(seed)());
-};
+const seed = Math.round(Math.random() * 5000);
+console.log(`Randomizing with seed ${seed}`);
+const seedGenerator = xfnv1a(seed);
+
+class Random {
+  constructor() {
+    this.randomGen = mulberry32(seedGenerator());
+  }
+
+  next() {
+    return this.randomGen();
+  }
+}
+
+module.exports = Random;

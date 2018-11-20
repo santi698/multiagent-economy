@@ -1,6 +1,6 @@
 const Agent = require('./Agent');
 const priceThenQuality = require('../sorting/priceThenQuality');
-const random = require('../util/random')();
+const Random = require('../util/Random');
 
 const SALARY_PERIOD = 30;
 class SimpleBuyer extends Agent {
@@ -13,6 +13,7 @@ class SimpleBuyer extends Agent {
     productPreference = priceThenQuality,
   }) {
     super();
+    this.randomGenerator = new Random();
     this.periodsAlive = 0;
     this.maxPrice = maxPrice;
     this.qualityThreshold = qualityThreshold;
@@ -88,7 +89,12 @@ class SimpleBuyer extends Agent {
 
   chooseOneOfBest(sellers) {
     const chosenSellers = sellers.filter((s) => s.equalsByPrice(sellers[0]));
-    const chosenIndex = Math.floor(random() * chosenSellers.length);
+    if (chosenSellers.length === 0) {
+      debugger;
+    }
+    const chosenIndex = Math.floor(
+      this.randomGenerator.next() * chosenSellers.length
+    );
     return chosenSellers[chosenIndex];
   }
 
