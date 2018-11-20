@@ -87,9 +87,6 @@ class SimpleSeller extends Agent {
         updatePeriod: this.priceUpdatePeriod,
       })
     );
-    if (isNaN(this.productPrice)) {
-      debugger;
-    }
   }
 
   equalsByPrice(seller) {

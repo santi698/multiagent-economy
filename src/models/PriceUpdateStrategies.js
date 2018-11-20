@@ -2,7 +2,7 @@ const Random = require('../util/Random');
 
 const SEEK_DELTA = 0.01;
 
-const ConstantPriceUpdateStrategy = ({ priceHistory }) =>
+const ConstantPriceUpdateStrategy = () => ({ priceHistory }) =>
   priceHistory.slice(-1)[0];
 
 const PriceUpdateStrategy1Old = () => {
@@ -111,10 +111,26 @@ const SeekDesiredQuantityLinear = () => {
   };
 };
 
+const TCPStrategy = (linearStep = 0.01, multiplier = 0.99) => {
+  return ({
+    priceHistory,
+    quantitySoldHistory,
+    variableCosts,
+    fixedCosts,
+    producingCapacity,
+    updatePeriod,
+  }) => {
+    if (quantitySoldHistory.slice(-1)[0] >= producingCapacity) {
+      return priceHistory.slice(-1)[0] + linearStep;
+    }
+    return priceHistory.slice(-1)[0] * multiplier;
+  };
+};
 module.exports = {
   ConstantPriceUpdateStrategy,
   PriceUpdateStrategy1Old,
   PriceUpdateStrategy1New,
   SeekDesiredQuantityConstant,
   SeekDesiredQuantityLinear,
+  TCPStrategy,
 };
