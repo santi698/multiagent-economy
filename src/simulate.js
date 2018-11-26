@@ -1,5 +1,6 @@
 const SimpleSeller = require('./models/SimpleSeller');
 const SimpleBuyer = require('./models/SimpleBuyer');
+const QualitySavvyBuyer = require('./models/QualitySavvyBuyer');
 const World = require('./models/World');
 const Random = require('./util/Random');
 const Simulation = require('./models/Simulation');
@@ -44,11 +45,12 @@ function createBuyers() {
   const qualitySavvyConsumerAmount = Number(
     document.getElementById('qualitySavvyConsumerAmount').value
   );
+  console.log(qualitySavvyConsumerAmount);
   const qualitySavvyConsumers = new Array(qualitySavvyConsumerAmount)
     .fill()
     .map(() => {
       const q = random.next();
-      return new SimpleBuyer({
+      return new QualitySavvyBuyer({
         maxPrice: 5 + random.next() * 10,
         buyingPeriod: Math.round(3 + random.next() * 2),
         startingMoney: 0,
@@ -70,6 +72,7 @@ function createSellers() {
       priceUpdateStrategy: PriceUpdateStrategies[
         document.getElementById('seller1Strategy').value
       ](),
+      initialProductPrice: 9,
     }),
     new SimpleSeller({
       producingCapacity: Number(
@@ -82,6 +85,7 @@ function createSellers() {
       priceUpdateStrategy: PriceUpdateStrategies[
         document.getElementById('seller2Strategy').value
       ](),
+      initialProductPrice: 9,
     }),
     new SimpleSeller({
       producingCapacity: Number(
@@ -94,6 +98,7 @@ function createSellers() {
       priceUpdateStrategy: PriceUpdateStrategies[
         document.getElementById('seller3Strategy').value
       ](),
+      initialProductPrice: 9,
     }),
   ];
 }

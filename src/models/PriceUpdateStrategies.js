@@ -120,7 +120,7 @@ const TCPStrategy = (linearStep = 0.01, multiplier = 0.99) => {
     producingCapacity,
     updatePeriod,
   }) => {
-    if (quantitySoldHistory.slice(-1)[0] >= producingCapacity) {
+    if (quantitySoldHistory.slice(-1)[0] >= 0.9 * producingCapacity) {
       return priceHistory.slice(-1)[0] + linearStep;
     }
     return priceHistory.slice(-1)[0] * multiplier;
