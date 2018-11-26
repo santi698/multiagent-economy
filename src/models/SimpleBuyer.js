@@ -11,9 +11,10 @@ class SimpleBuyer extends Agent {
     startingMoney,
     salary,
     productPreference = priceThenQuality,
+    randomGenerator = new Random(),
   }) {
     super();
-    this.randomGenerator = new Random();
+    this.randomGenerator = randomGenerator;
     this.periodsAlive = 0;
     this.maxPrice = maxPrice;
     this.qualityThreshold = qualityThreshold;

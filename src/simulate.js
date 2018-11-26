@@ -2,7 +2,7 @@ const SimpleSeller = require('./models/SimpleSeller');
 const SimpleBuyer = require('./models/SimpleBuyer');
 const QualitySavvyBuyer = require('./models/QualitySavvyBuyer');
 const World = require('./models/World');
-const Random = require('./util/Random');
+const { Random } = require('./util/Random');
 const Simulation = require('./models/Simulation');
 const PlottingService = require('./services/PlottingService');
 const PriceUpdateStrategies = require('./models/PriceUpdateStrategies');
@@ -30,16 +30,17 @@ function deleteCharts() {
 
 function createBuyers() {
   const salary = Number(document.getElementById('consumerSalary').value);
+  const seed = random.next();
   const simpleConsumerAmount = Number(
     document.getElementById('simpleConsumerAmount').value
   );
   const simpleConsumers = new Array(simpleConsumerAmount).fill().map(() => {
-    const q = random.next();
     return new SimpleBuyer({
       maxPrice: 5 + random.next() * 10,
       buyingPeriod: Math.round(3 + random.next() * 2),
       startingMoney: 0,
       salary: salary,
+      randomGenerator: new Random(seed),
     });
   });
   const qualitySavvyConsumerAmount = Number(
@@ -55,6 +56,7 @@ function createBuyers() {
         buyingPeriod: Math.round(3 + random.next() * 2),
         startingMoney: 0,
         salary: salary,
+        randomGenerator: new Random(seed),
       });
     });
   return [...simpleConsumers, ...qualitySavvyConsumers];

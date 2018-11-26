@@ -24,8 +24,8 @@ console.log(`Randomizing with seed ${seed}`);
 const seedGenerator = xfnv1a(seed);
 
 class Random {
-  constructor() {
-    this.randomGen = mulberry32(seedGenerator());
+  constructor(seed) {
+    this.randomGen = mulberry32(seed);
   }
 
   next() {
@@ -33,4 +33,7 @@ class Random {
   }
 }
 
-module.exports = Random;
+module.exports = {
+  Random,
+  seedGenerator,
+};
